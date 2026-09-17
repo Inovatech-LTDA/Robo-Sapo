@@ -24,11 +24,11 @@ def send_keys():
         time_str = datetime.now()
         client_socket.send(key_str.encode("utf-8"))
         data, _addr = client_socket.recvfrom(1024)
-        print(
-        f"time_sent: {time_str} | Server response: {data.decode('utf-8')}  "
-        )
+        print(f"time_sent: {time_str} | Server response: {data.decode('utf-8')}  ")
     except TimeoutError:
-        print("Request timed out. No response from server.")
+        print("Request timed out. No response from server, trying again...")
+        send_keys()
+        
 
 
 def on_press(key):
@@ -48,7 +48,6 @@ def on_press(key):
         print(f"Ocorreu um erro: {e}")
 
 
-
 def on_release(key):
     if hasattr(key, "char") and key.char is not None:
         if key.char in ("w", "a", "s", "d"):
@@ -56,7 +55,7 @@ def on_release(key):
             send_keys()
 
     if key == KeyClass.esc:
-        print("Fechando o listener...")
+        print("Closing the listener...")
         return False
 
 
