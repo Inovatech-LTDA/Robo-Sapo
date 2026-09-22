@@ -4,7 +4,7 @@ const int pinIN1 = 8;   // Motor 1 Sentido 1
 const int pinIN2 = 7;   // Motor 1 Sentido 2
 
 const int pinENB = 11;  // Motor 2 PWM (Velocidade - Direita)
-const int pinIN3 = 12;  // Motor 2 Sentido 1
+const int pinIN3 = 12;  // Motor 2 Sentido 1                        // 
 const int pinIN4 = 13;  // Motor 2 Sentido 2
 
 unsigned long ultimoComandoRecebido = 0;
