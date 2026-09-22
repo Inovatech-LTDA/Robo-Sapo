@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dashboard do Carro - Telemetria</title>
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>🏎️ Car Control Dashboard</h1>
+      <div class="status-badge" id="connectionStatus">
+        <span class="status-dot"></span> <span id="statusText">Desconectado</span>
+      </div>
+    </header>
+
+    <main class="dashboard-grid">
+      <section class="card camera-card">
+        <h2>📷 Transmissão Ao Vivo</h2>
+        <div id="iframeDiv">
+          <iframe
+            src="http://192.168.0.105:1984/stream.html?src=iphone"
+            allow="fullscreen"
+          ></iframe>
+        </div>
+      </section>
+
+      <section class="card sensors-card">
+        <h2>📊 Telemetria dos Sensores</h2>
+
+        <div class="sensor-item">
+          <div class="sensor-header">
+            <span>📏 Sensor de Distância</span>
+            <strong id="distText">0 cm</strong>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="distBar" class="progress-bar-fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="sensor-item">
+          <div class="sensor-header">
+            <span>🔋 Bateria do Veículo</span>
+            <strong id="batteryText">0%</strong>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="batteryBar" class="progress-bar-fill battery" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="actuators-grid">
+          <div class="actuator-box">
+            <span>💡 LED / Faróis</span>
+            <label class="switch">
+              <input type="checkbox" id="toggleLed">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="actuator-box">
+            <span>⚡ Modo Turbo</span>
+            <label class="switch">
+              <input type="checkbox" id="toggleTurbo">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+       
+
+        <div class="metrics-row">
+          <div class="metric-box">
+            <span class="label">Velocidade</span>
+            <span class="value" id="speedValue">0 <small>km/h</small></span>
+          </div>
+          <div class="metric-box">
+            <span class="label">Obstáculo</span>
+            <span class="value status-ok" id="obstacleStatus">Livre</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="card controls-card">
+      <h3>🎮 Controlo de Direção</h3>
+      <div id="keysPressed">
+        <div class="keyRow">
+          <div id="keyW" class="key">W</div>
+        </div>
+        <div class="keyRow">
+          <div id="keyA" class="key">A</div>
+          <div id="keyS" class="key">S</div>
+          <div id="keyD" class="key">D</div>
+        </div>
+      </div>
+
+      <div id="messages">
+      </div>
+     
+    </footer>
+
+    <script type="module" src="/src/renderer.ts"></script>
+  </body>
+</html>
