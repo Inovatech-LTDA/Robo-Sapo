@@ -84,17 +84,20 @@ function updateDashboard(data: SensorData) {
 }
 
 const messages = document.getElementById("messages");
+const button = document.getElementById('controller').addEventListener('click', () => {
+  executecmd()
+})
 
 async function executecmd() {
   try {
-    const targetPath =
-      "/Users/lucaslaguilio/Projects/Robo-Sapo/src/dist/Controller/Controller";
+    const targetPath = "/Users/lucaslaguilio/Projects/Robo-Sapo/src/dist/Controller/Controller";
     const output = await window.controller.runController(targetPath);
-    console.log("Controller started:", output);
+console.log("Controller started:", output);
     messages.innerText = `Controloador iniciado`;
     if (output.includes('Erro')) {
-      messages.innerText = `${output}`;
       window.abortController.abort()
+      messages.innerText = `${output}`;
+      return
     }
   } catch (err) {
     messages.innerText = `Error: ${err}}`;
@@ -113,12 +116,8 @@ setInterval(() => {
   updateDashboard(simulatedData);
 }, 1000);
 
-// inicia apenas uma vez a cada 30 segundos e uma na inicialização, se der erro espera os 30 segundos e inicia de novo
-// fiz isso para não ficar abrindo um monte de processo/arquivo quando o controlador dar erro.
-executecmd() 
-setInterval(() => {
-  executecmd() 
-}, 30000)
+
+
 const toggleLed = document.getElementById("toggleLed") as HTMLInputElement;
 toggleLed?.addEventListener("change", (e) => {
   const isChecked = (e.target as HTMLInputElement).checked;

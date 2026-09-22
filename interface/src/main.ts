@@ -43,25 +43,37 @@ app.on("activate", () => {
 });
 
 const execFileAsync = promisify(execFile);
-const controller = new AbortController();
-const { signal } = controller;
+
+let controller: AbortController | null = null;
 ipcMain.handle("run-controller", async (_event, targetPath: string) => {
   try {
+    const controller = new AbortController();
+    const { signal } = controller;
     const { stdout } = await execFileAsync(targetPath, {
       signal,
     });
     return stdout;
   } catch (error: any) {
     const stderr = error.stderr ? error.stderr.toString() : "";
+    if (error.name === "AbortError" || error.code === "ABORT_ERR" || error.signal === "SIGTERM") {
+      return null
+    }
     throw new Error(
       `Falha ao executar ${targetPath}: ${stderr || error.message}`,
     );
+   
+  }
+  finally {
+    controller = null
   }
 });
 
 ipcMain.handle("abortController", async () => {
   try {
-    controller.abort();
+    if (controller) {
+      controller.abort();
+      controller = null
+    }
   } catch (e) {
     console.log(e);
   }
